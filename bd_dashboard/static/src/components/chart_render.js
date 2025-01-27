@@ -40,7 +40,7 @@ export class ChartRenderer extends Component {
         if (this.chart){
             this.chart.destroy()
         }
-        console.log(">>>>>>>>>>>>>>>>>>>11111111111111>>>>>>>>>>>>>>>>>>>>>>>>>",this.props.config)
+        // console.log(">>>>>>>>>>>>>>>>>>>11111111111111>>>>>>>>>>>>>>>>>>>>>>>>>",this.props.config)
         this.chart = new Chart(this.chartRef.el,
             {
                 type: this.props.type,
@@ -61,7 +61,7 @@ export class ChartRenderer extends Component {
                     const { label_field, domain } = this.props.config
                     let new_domain = domain ? domain : []
                     const proms = jsonrpc('/top-products')
-                    console.log(">>>>>>>>>>=proms===",proms)
+                    // console.log(">>>>>>>>>>=proms===",proms)
                     
                     if (label_field){
                         new_domain.push([label_field, '=', label])

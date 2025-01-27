@@ -127,8 +127,9 @@
                                 <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 20px; padding-left: 80px;">
                                     <div class="stat_count_ex_rev" t-on-click="openorder" style="font-size: 17px;">
                                         <span id="templates">
-                                            <!-- <div id="revenue"></div> -->
-                                            <div t-esc="state.order"/>
+                                            <i class="fa fa-usd text-mauve">
+                                              <span t-esc="state.order"/>
+                                            </i>
                                         </span>
 
                                     </div>
