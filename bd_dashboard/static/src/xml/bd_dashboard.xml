@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
     <t t-name="bd_dashboard.BdDashboard">
-        <div class="row m-2">
+        <div class="row m-1" >
             <div class="col-lg-13">
                 <div class="row">
                     <div class="col m-0 p-0">
-                        <div class="shadow-sm border m-2 p-4 bg-white">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h1 class="text-primary fw-bold">Custom Sales Dashboard</h1>
-                                <div >
+                        <div class="shadow-sm border m-1 p-1 bg-white">
+                            <div class="d-flex align-items-center justify-content-between" >
+                                <h1 class="text-primary fw-bold" style="text-align: center; width: 100%; display: flex; justify-content: center;">Custom Sales Dashboard</h1>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                <div>
                                     <label for="StartDate">Start Date:</label>
                                     <input id="StartDate" type="datetime-local" name="StartDate"/>
                                 </div>
@@ -16,15 +18,83 @@
                                     <label for="EndDate">End Date:</label>
                                     <input id="EndDate" type="datetime-local" name="EndDate" />
                                 </div>
-                                <div>
+                                <div style='margin-right:10px'>
                                     <select class="form-select" t-model="state.period" t-on-change="onChangePeriod">
                                         <option value="0">select period</option>
+                                        <option value="7">Last 7 Days</option>
+                                        <option value="30">Last 30 Days</option>    
+                                        <option value="90">Last 90 Days</option>
+                                        <option value="180">Last 180 Days</option>
+                                        <option value="365">Last 365 Days</option>
+                                    </select>
+                                </div>
+                                <div style='margin-right:10px'>
+                                    <label for="country">Select Country</label>
+                                    <select id="country" t-attf-name="country">
+                                        <option t-foreach="countries" t-as="country" t-key="country" t-att-value="country.id">
+                                            <t t-esc="country.name"/>
+                                            <!-- <div t-esc="state.countries"/> -->
+                                        </option>
+                                    </select>
+                                </div>
+                                <!-- <div style='margin-right:10px'>
+                                    <select class="form-select">
+                                        <option value="0">select country</option>
                                         <option value="7">Last 7 Days</option>
                                         <option value="30">Last 30 Days</option>
                                         <option value="90">Last 90 Days</option>
                                         <option value="180">Last 180 Days</option>
                                         <option value="365">Last 365 Days</option>
-                                        <!-- <option value="3">Last 3 Years</option> -->
+                                    </select>
+                                </div> -->
+                                <div style='margin-right:10px'>
+                                    <select class="form-select">
+                                        <option>select product</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                        <option>Last 180 Days</option>
+                                        <option>Last 365 Days</option>
+                                    </select>
+                                </div>
+                                <div  style='margin-right:10px'>
+                                    <select class="form-select">
+                                        <option>select customer</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                        <option>Last 180 Days</option>
+                                        <option>Last 365 Days</option>
+                                    </select>
+                                </div>
+                                <div  style='margin-right:10px'>
+                                    <select class="form-select">
+                                        <option>select catagory</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                        <option>Last 180 Days</option>
+                                        <option>Last 365 Days</option>
+                                    </select>
+                                </div>
+                                <div style='margin-right:10px'>
+                                    <select class="form-select">
+                                        <option>select salesteams</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                        <option>Last 180 Days</option>
+                                        <option>Last 365 Days</option>
+                                    </select>
+                                </div>
+                                <div style='margin-right:10px'>
+                                    <select class="form-select">
+                                        <option>select salesPerson</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 90 Days</option>
+                                        <option>Last 180 Days</option>
+                                        <option>Last 365 Days</option>
                                     </select>
                                 </div>
                                 <div class="fetchData">
@@ -32,7 +102,6 @@
                                         <i class="oi oi-search"></i>
                                     </button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -42,22 +111,22 @@
     
 
 
-
         <!-- Dashboard Tiles -->
-        <div class="row main-section" style="margin-left: 20px;">
+        <div class="row main-section" style="margin-left: 10px; max-height:500px;  overflow-y: auto;">
 
             <!-- Quotations Tile -->
-            <div id="quotations" class="col-md-3 col-sm-4 tot_tasks oh-payslip" style="overflow: hidden;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2); display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body" style="padding: 5px 5px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
+            <div id="quotations" class="col-md-3 col-sm-2 tot_tasks oh-payslip" style="overflow: hidden;">
+                <div class="oh-card" style="box-shadow:8px 8px 8px 8px rgba(0,0,0.1,0.1); display: flex; justify-content: center;" role="button">
+                    <div class="oh-card-body" style="padding: 2px 2px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
                         <div class="stat-widget-one">
                             <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#ff4d94; width:40px; heigth:40px; text-align: center;">
-                                    <i class="fa fa-tasks text-mauve" style="font-size:40px;"/>
+                                <div style="width:40px; heigth:40px; text-align: center;">
+                                    <!-- <i class="fa fa-tasks text-mauve" style="font-size:40px;"/> -->
+                                    <img src="bd_dashboard/static/description/download.png" height="auto" style="width:90%"  class="img-responsive"/>
                                 </div>
-                                <div class="stat_content" style="text-align: center; font-weight: bold; padding-top: 20px; padding-left: 80px;">
+                                <div class="stat_content" style="text-align: center; font-weight: bold; padding-top: 8px; padding-left: 90px;">
                                     <div class="stat_count_quotations" t-on-change="onChangePeriod" t-on-click="openmyQuotations" style="font-size: 17px;">
-                                        <div t-esc="state.myquotations" />
+                                        <div t-esc="state.myquotations"/>
                                     </div>
                                     <div class="stathead" style="font-size: 14px;">Quotations</div>
                                 </div>
@@ -68,17 +137,18 @@
             </div>
 
             <!-- Sent Quotations Tile -->
-            <div id="opportunity" class="col-md-3 col-sm-4 tot_tasks oh-payslip" style="overflow: hidden;">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2); display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body" style="padding: 5px 5px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
+            <div id="opportunity" class="col-md-3 col-sm-2 tot_tasks oh-payslip" style="overflow: hidden;">
+                <div class="oh-card" style="box-shadow:8px 8px 8px 8px rgba(0,0,0.1,0.1); display: flex; justify-content: center;" role="button">
+                    <div class="oh-card-body" style="padding: 2px 2px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
                         <div class="stat-widget-one">
                             <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:yellow; width:40px; heigth:40px; text-align: center;">
-                                    <i class="fa fa-trophy text-mauve" style="font-size:40px;"/>
+                                <div style="width:40px; heigth:40px; text-align: center;">
+                                    <!-- <i class="fa fa-trophy text-mauve" style="font-size:40px;"/> -->
+                                    <img src="bd_dashboard/static/description/sent.jpeg" height="auto" style="width:90%"  class="img-responsive"/>
                                 </div>
-                                <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_opp" t-on-click="openmyOpportunity" style="font-size: 17px;">
-                                        <div t-esc="state.myopportunity" />
+                                <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 8px; padding-left: 90px;">
+                                    <div class="stat_count_opp" t-on-change="onChangePeriod" t-on-click="openmyOpportunity" style="font-size: 17px;">
+                                        <div t-esc="state.myopportunity"/>
                                     </div>
 
                                     <div class="stathead" style="font-size: 14px;">Sent Quotations</div>
@@ -90,21 +160,20 @@
             </div>
 
             <!-- Expected Orders Tile -->
-            <div id="expected_revenue" class="col-md-3 col-sm-4 tot_tasks oh-payslip" style="overflow: hidden; ">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2); display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body" style="padding: 5px 5px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
+            <div id="expected_revenue" class="col-md-3 col-sm-2 tot_tasks oh-payslip" style="overflow: hidden; ">
+                <div class="oh-card" style="box-shadow:8px 8px 8px 8px rgba(0,0,0.1,0.1); display: flex; justify-content: center;" role="button">
+                    <div class="oh-card-body" style="padding: 2px 2px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
                         <div class="stat-widget-one">
                             <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#bf80ff; width:40px; heigth:40px; text-align: center;">
-                                    <i class="fa fa-usd text-mauve" style="font-size:40px;"/>
+                                <div style="width:40px; heigth:40px; text-align: center;">
+                                    <!-- <i class="fa fa-first-order text-mauve" style="font-size:40px;"/> -->
+                                    <img src="bd_dashboard/static/description/order.jpeg" height="auto" style="width:90%"  class="img-responsive"/>
                                 </div>
-                                <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_ex_rev" t-on-click="openrevenue" style="font-size: 17px;">
+                                <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 8px; padding-left: 90px;">
+                                    <div class="stat_count_ex_rev" t-on-change="onChangePeriod" t-on-click="openrevenue" style="font-size: 17px;">
                                         <span id="templates">
-                                            <!-- <div id="revenue"></div> -->
                                             <div t-esc="state.revenue"/>
                                         </span>
-
                                     </div>
 
                                     <div class="stathead" style="font-size: 14px;">Orders</div>
@@ -116,22 +185,22 @@
             </div>
 
             <!--  Revenue Tile -->
-            <div id="expected_revenue" class="col-md-3 col-sm-4 tot_tasks oh-payslip" style="overflow: hidden; ">
-                <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2); display: flex; justify-content: center;" role="button">
-                    <div class="oh-card-body" style="padding: 5px 5px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
+            <div id="expected_revenue" class="col-md-3 col-sm-2 tot_tasks oh-payslip" style="overflow: hidden; ">
+                <div class="oh-card" style="box-shadow:8px 8px 8px 8px rgba(0,0,0.1,0.1); display: flex; justify-content: center;" role="button">
+                    <div class="oh-card-body" style="padding: 2px 2px; float: left; width: 100%; height: auto; box-sizing: border-box; margin: 0;">
                         <div class="stat-widget-one">
                             <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
-                                <div style="background:#bf80ff; width:40px; heigth:40px; text-align: center;">
-                                    <i class="fa fa-usd text-mauve" style="font-size:40px;"/>
+                                <div style="width:40px; heigth:40px; text-align: center;">
+                                    <!-- <i class="fa fa-usd text-mauve" style="font-size:40px;"/> -->
+                                    <img src="bd_dashboard/static/description/revenew.png" height="auto" style="width:90%"  class="img-responsive"/>
                                 </div>
-                                <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 20px; padding-left: 80px;">
-                                    <div class="stat_count_ex_rev" t-on-click="openorder" style="font-size: 17px;">
+                                <div class="stat-content" style="text-align: center; font-weight: bold; padding-top: 8px; padding-left: 90px;">
+                                    <div class="stat_count_ex_rev" t-on-change="onChangePeriod" t-on-click="openorder" style="font-size: 17px;">
                                         <span id="templates">
-                                            <i class="fa fa-usd text-mauve">
+                                            <i class="fa fa-usd text-mauve"/>
                                               <span t-esc="state.order"/>
-                                            </i>
+                                            <!-- </i> -->
                                         </span>
-
                                     </div>
 
                                     <div class="stathead" style="font-size: 14px;">Revenue</div>
@@ -143,38 +212,40 @@
             </div>
 
             <!-- top product graph -->
-
-            <div class="col-lg-3 m-0 p-0">
-                <div class="shadow-sm border m-0 p-2 bg-white">
-                    <div class="d-flex align-items-center justify-content-between" >
+            <div class="col-lg-4 m-2 p-2">
+                <div class="shadow-sm border m-2 p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
                         <h3 class="text-primary fw-bold">Top Products</h3>
-                        <div class="px-3 py-1 bg-primary cursor-pointer">
-                            <span class="fa fa-arrow-right text-white" t-on-click="top_products"/>
-                        </div>
+                            <span class="text-white" t-on-click="top_products"/>
                     </div>
                     <ChartRenderer type="'pie'" title="'Top Products Report'" config="state.topProducts"/>
                 </div>
             </div>
-            <div class="col-lg-3 m-0 p-0">
-                <div class="shadow-sm border m-0 p-2 bg-white">
+            <div class="col-lg-4 m-2 p-2">
+                <div class="shadow-sm border m-2 p-3 bg-white" style="width:21.3cm;">
+                    <div class="d-flex align-items-center justify-content-between" >
+                        <h3 class="text-primary fw-bold">Monthly sales</h3>                    
+                        <span class="fa fa-arrow-right text-white" t-on-click="top_products"/>
+                    </div>
+                    <ChartRenderer type="'bar'" title="'Monthly Sales'" config="state.monthlySales"/>
+                </div>
+            </div>
+            <div class="col-lg-4 m-2 p-2">
+                <div class="shadow-sm border m-2 p-3 bg-white">
                     <div class="d-flex align-items-center justify-content-between" >
                         <h3 class="text-primary fw-bold">Top sales People</h3>
-                        <div class="px-3 py-1 bg-primary cursor-pointer">
-                            <span class="fa fa-arrow-right text-white" t-on-click="top_products"/>
-                        </div>
+                            <span class="text-white" t-on-click="top_products"/>
                     </div>
                     <ChartRenderer type="'pie'" title="'Top Sales People'" config="state.topSalesPeople"/>
                 </div>
             </div>
-            <div class="col-lg-4 m-0 p-0">
-                <div class="shadow-sm border m-2 p-2 bg-white">
+            <div class="col-lg-4 m-2 p-2">
+                <div class="shadow-sm border m-2 p-3 bg-white" style="width:21.3cm;">
                     <div class="d-flex align-items-center justify-content-between" >
-                        <h3 class="text-primary fw-bold">Monthly sales</h3>
-                        <div class="px-3 py-1 bg-primary cursor-pointer">
+                        <h3 class="text-primary fw-bold">Monthly Product</h3>
                             <span class="fa fa-arrow-right text-white" t-on-click="top_products"/>
-                        </div>
                     </div>
-                    <ChartRenderer type="'bar'" title="'Monthly Sales'"/>
+                    <ChartRenderer type="'line'" title="'Monthly Product'" config="state.partnerOrders"/>
                 </div>
             </div>
             

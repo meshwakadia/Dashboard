@@ -72,10 +72,10 @@ export class ChartRenderer extends Component {
                     }
 
                     
-
                     this.actionService.doAction({
                         type: "ir.actions.act_window",
                         name: this.props.title,
+                        // res_model: "sale.report",
                         res_model: "sale.order",
                         domain: new_domain,
                         views: [

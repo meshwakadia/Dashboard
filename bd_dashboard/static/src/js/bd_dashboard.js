@@ -10,6 +10,52 @@ import { getColor } from "@web/views/calendar/colors";
 const actionRegistry = registry.category("actions");
 
 class BdDashboardTag extends Component {
+    setup() {
+        this.state = useState({
+            quotations: {
+                value: 10,
+                percentage: 6,
+            },
+            period: 90,
+        })
+        super.setup();
+        this.action = useService("action");
+        this.orm = useService("orm");
+        this.actionService = useService("action");
+
+        const old_chartjs = document.querySelector('script[src="/web/static/lib/Chart/Chart.js"]');
+        const router = useService("router");
+
+        if (old_chartjs) {
+            let { search, hash } = router.current;
+            search.old_chartjs = old_chartjs != null ? "0" : "1";
+            hash.action = 86;
+            browser.location.href = browser.location.origin + routeToUrl(router.current);
+        }
+
+        onWillStart(async () => {
+            await this.getTopProducts();
+            await this.getTopSalesPeople();
+            await this.getMonthlySales();
+            await this.getPartnerOrders();
+
+        });
+
+        this.state = {
+            myquotations: 0,
+            myopportunity: 0,
+            revenue: 0,
+            order: 0,
+            startDate: "",
+            endDate: "",
+            
+        };
+        this.fetch_Data();
+        this.top_products();
+        this.getOrder();
+        this._fetchCountries();
+
+    }
 
     async getTopProducts() {
         let domain = [['state', '=', 'sale']];
@@ -38,6 +84,7 @@ class BdDashboardTag extends Component {
         };
     }
 
+
     async getTopSalesPeople() {
         let domain = [['state', '=', ['sale']]];
         if (this.state.period > 0) {
@@ -61,54 +108,114 @@ class BdDashboardTag extends Component {
         }
     }
 
-    setup() {
-        this.state = useState({
-            quotations: {
-                value: 10,
-                percentage: 6,
-            },
-            period: 90,
-        })
-        super.setup();
-        this.action = useService("action");
-        this.orm = useService("orm");
-        this.actionService = useService("action");
 
-        const old_chartjs = document.querySelector('script[src="/web/static/lib/Chart/Chart.js"]');
-        const router = useService("router");
-
-        if (old_chartjs) {
-            let { search, hash } = router.current;
-            search.old_chartjs = old_chartjs != null ? "0" : "1";
-            hash.action = 86;
-            browser.location.href = browser.location.origin + routeToUrl(router.current);
+    async getMonthlySales(){
+        let domain = [['state', 'in', ['draft','sent','sale', 'done']]];
+        if (this.state.period > 0){
+            domain.push(['date','>', this.state.current_date]);
         }
 
-        onWillStart(async () => {
-            await this.getTopProducts();
-            await this.getTopSalesPeople();
-        });
+        const data = await this.orm.readGroup("sale.report", domain, ['date', 'state', 'price_total'], ['date', 'state'], { orderby: "date", lazy: false });
+        console.log("monthlysales============", data);
+        
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June', 
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
 
-        this.state = {
-            myquotations: 0,
-            myopportunity: 0,
-            revenue: 0,
-            order: 0,
-            startDate: "",
-            endDate: "",
+    
+        const labels = months;
+        const quotations = data.filter(d => d.state == 'draft');
+        console.log("quotations", quotations);
+        const orders = data.filter(d => ['sale'].includes(d.state));
+        const orders_amount = orders.map(order => order.amount_total);
+        console.log("orders", orders_amount);
+
+
+        const getMonthlyTotal = (month, data) => {
+            const monthNumber = months.indexOf(month) + 1;
+            return data.filter(d => new Date(d.date).getMonth() + 1 === monthNumber)
+                    .map(d => d.price_total)
+                    .reduce((a, c) => a + c, 0);
         };
-        this.fetch_Data();
-        this.top_products();
+
+        this.state.monthlySales = {
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Quotations',
+                        data: labels.map(month => getMonthlyTotal(month, quotations)),
+                        hoverOffset: 4,
+                        backgroundColor: "red",
+                    },
+                    {
+                        label: 'Orders',
+                        data: labels.map(month => getMonthlyTotal(month, orders)),
+                        hoverOffset: 4,
+                        backgroundColor: "green",
+                    }
+                ]
+            },
+            domain,
+            label_field: 'date',
+        };
     }
 
+    async getPartnerOrders(){
+        let domain = [['state', 'in', ['draft','sent','sale', 'done']]]
+        if (this.state.period > 0){
+            domain.push(['date','>', this.state.current_date])
+        }
+
+        const data = await this.orm.readGroup("sale.report", domain, ['product_id', 'price_total'], ['product_id'], { orderby: "product_id", lazy: false })
+        console.log("monthly sales=======", data)
+
+
+        this.state.partnerOrders = {
+            data: {
+                labels: data.map(d => d.product_id[1]),
+                datasets: [
+                {
+                    label: 'Total Amount',
+                    data: data.map(d => d.price_total),
+                    hoverOffset: 4,
+                    backgroundColor: "orange",
+                    yAxisID: 'Total',
+                    order: 1,
+                }]
+            },
+            scales: {
+                /*Qty: {
+                    position: 'right',
+                }*/
+                yAxes: [
+                    { id: 'Qty', position: 'right' },
+                    { id: 'Total', position: 'left' },
+                ]
+            },
+            domain,
+            label_field: 'product_id',
+        }
+    }
+
+    
     async onChangePeriod() {
         this.getDates();
         await this.getQuotations();
         await this.getOpportunity();
         await this.getRevenue();
         await this.getOrder();
-        await this.getTopProducts();
-        await this.getTopSalesPeople();
+    }
+    
+    _fetchCountries () {
+        var self = this;
+        var prom = jsonrpc('/get_countries')
+        // self.countries = countries;
+        // console.log("self.countries_________________________",self.countries)
+        // self.renderElement();
+        console.log("prom_________________________",prom)
+        return prom
     }
 
     top_products(ev) {
@@ -124,7 +231,6 @@ class BdDashboardTag extends Component {
             self.state.myquotations = result.my_quotations || 0;
             self.state.myopportunity = result.my_opportunity || 0;
             self.state.revenue = result.revenue || 0;
-            self.state.order = result.order || 0;
             self.render();
         });
         return prom;
@@ -142,7 +248,6 @@ class BdDashboardTag extends Component {
                 self.state.myquotations = data.my_quotations || 0;
                 self.state.myopportunity = data.my_opportunity || 0;
                 self.state.revenue = data.revenue || 0;
-                self.state.order = data.order || 0;
                 self.render();
             });
         } else {
@@ -292,13 +397,8 @@ class BdDashboardTag extends Component {
             prev_domain.push(['date_order', '>', this.state.previous_date], ['date_order', '<=', this.state.current_date]);
         }
 
-        // Search for sale orders by domain
         let sale_orders = await this.orm.search("sale.order", prev_domain);
-
-        // Now read specific fields ('id', 'amount_total')
         let prev_data = await this.orm.read("sale.order", sale_orders, ['amount_total']);
-
-        // Extract amount_total from each sale order in prev_data
         prev_data.forEach(orders => {
             this.state.order += orders.amount_total;
         });
@@ -326,6 +426,7 @@ class BdDashboardTag extends Component {
                 domain: prev_domain,
                 target: "current",
             });
+
         } else {
             this.action.doAction({
                 type: "ir.actions.act_window",
@@ -336,6 +437,7 @@ class BdDashboardTag extends Component {
                 target: "current",
             });
         }
+
     }
 }
 

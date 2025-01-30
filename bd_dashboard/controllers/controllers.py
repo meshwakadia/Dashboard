@@ -8,7 +8,7 @@ class WebsiteForm(http.Controller):
     @http.route('/bdd-orders', auth="public", type="json", methods=['GET', 'POST'])
     def bdd_orders(self, **kw):
         data = kw
-        
+
         # Check if 'StartDate' and 'EndDate' are present in the incoming data
         if 'StartDate' not in data or 'EndDate' not in data:
             return {'error': 'StartDate and EndDate are required'}
@@ -54,6 +54,12 @@ class WebsiteForm(http.Controller):
                 'my_opportunity':my_opportunity,
                 'revenue':revenue,
                 }
+        return vals
+    
+    @http.route('/get_countries',auth="public", type="json", methods=['GET', 'POST'])
+    def get_countries(self,**kw):
+        countries = request.env['res.country'].search([])
+        vals= [{'id': country.id, 'name': country.name} for country in countries]              
         return vals
     
     @http.route('/top-products', auth="public", type="json", methods=['GET', 'POST'])
