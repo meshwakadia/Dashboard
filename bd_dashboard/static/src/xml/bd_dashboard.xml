@@ -31,10 +31,9 @@
                                 <div style='margin-right:10px'>
                                     <label for="country">Select Country</label>
                                     <select id="country" t-attf-name="country">
-                                        <option t-foreach="countries" t-as="country" t-key="country" t-att-value="country.id">
-                                            <t t-esc="country.name"/>
-                                            <!-- <div t-esc="state.countries"/> -->
-                                        </option>
+                                        <!-- <option t-foreach="countries" t-as="country" t-key="country" t-att-value="country.id">
+                                            <t t-esc="country.name"/> -->
+                                        <!-- </option> -->
                                     </select>
                                 </div>
                                 <!-- <div style='margin-right:10px'>
