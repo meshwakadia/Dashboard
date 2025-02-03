@@ -31,71 +31,57 @@
                                 <div style='margin-right:10px'>
                                     <label for="country">Select Country</label>
                                     <select id="country" t-attf-name="country">
-                                        <!-- <option t-foreach="countries" t-as="country" t-key="country" t-att-value="country.id">
-                                            <t t-esc="country.name"/> -->
-                                        <!-- </option> -->
+                                        <option t-foreach="countries" t-as="country" t-key="country.id" t-att-value="country.id">
+                                            <t t-esc="country.name"/>
+                                        </option>
                                     </select>
                                 </div>
-                                <!-- <div style='margin-right:10px'>
-                                    <select class="form-select">
-                                        <option value="0">select country</option>
-                                        <option value="7">Last 7 Days</option>
-                                        <option value="30">Last 30 Days</option>
-                                        <option value="90">Last 90 Days</option>
-                                        <option value="180">Last 180 Days</option>
-                                        <option value="365">Last 365 Days</option>
-                                    </select>
-                                </div> -->
+
                                 <div style='margin-right:10px'>
-                                    <select class="form-select">
-                                        <option>select product</option>
-                                        <option>Last 7 Days</option>
-                                        <option>Last 30 Days</option>
-                                        <option>Last 90 Days</option>
-                                        <option>Last 180 Days</option>
-                                        <option>Last 365 Days</option>
+                                    <label for="product">Select Product</label>
+                                    <select id="product" t-attf-name="product">
+                                        <option t-foreach="products" t-as="product" t-key="product.id" t-att-value="product.id">
+                                            <t t-esc="product.name"/>
+                                        </option>
                                     </select>
                                 </div>
-                                <div  style='margin-right:10px'>
-                                    <select class="form-select">
-                                        <option>select customer</option>
-                                        <option>Last 7 Days</option>
-                                        <option>Last 30 Days</option>
-                                        <option>Last 90 Days</option>
-                                        <option>Last 180 Days</option>
-                                        <option>Last 365 Days</option>
-                                    </select>
-                                </div>
-                                <div  style='margin-right:10px'>
-                                    <select class="form-select">
-                                        <option>select catagory</option>
-                                        <option>Last 7 Days</option>
-                                        <option>Last 30 Days</option>
-                                        <option>Last 90 Days</option>
-                                        <option>Last 180 Days</option>
-                                        <option>Last 365 Days</option>
-                                    </select>
-                                </div>
+
                                 <div style='margin-right:10px'>
-                                    <select class="form-select">
-                                        <option>select salesteams</option>
-                                        <option>Last 7 Days</option>
-                                        <option>Last 30 Days</option>
-                                        <option>Last 90 Days</option>
-                                        <option>Last 180 Days</option>
-                                        <option>Last 365 Days</option>
+                                    <label for="customer">Select customers</label>
+                                    <select id="customer" t-attf-name="customer">
+                                        <option t-foreach="customers" t-as="customer" t-key="customer.id" t-att-value="customer.id">
+                                            <t t-esc="customer.name"/>
+                                        </option>
                                     </select>
                                 </div>
+                                
                                 <div style='margin-right:10px'>
-                                    <select class="form-select">
-                                        <option>select salesPerson</option>
-                                        <option>Last 7 Days</option>
-                                        <option>Last 30 Days</option>
-                                        <option>Last 90 Days</option>
-                                        <option>Last 180 Days</option>
-                                        <option>Last 365 Days</option>
+                                    <label for="catagory">Select catagory</label>
+                                    <select id="catagory" t-attf-name="catagory">
+                                        <option t-foreach="catagories" t-as="catagory" t-key="catagory.id" t-att-value="catagory.id">
+                                            <t t-esc="catagory.name"/>
+                                        </option>
                                     </select>
                                 </div>
+
+                                <div style='margin-right:10px'>
+                                    <label for="salesteam">Select salesteam</label>
+                                    <select id="salesteam" t-attf-name="salesteam">
+                                        <option t-foreach="salesteams" t-as="salesteam" t-key="salesteam.id" t-att-value="salesteam.id">
+                                            <t t-esc="salesteam.name"/>
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div style='margin-right:10px'>
+                                    <label for="salesperson">Select salesPerson</label>
+                                    <select id="salesperson" t-attf-name="salesperson">
+                                        <option t-foreach="salespersons" t-as="salesperson" t-key="salesperson.id" t-att-value="salesperson.id">
+                                            <t t-esc="salesperson.name"/>
+                                        </option>
+                                    </select>
+                                </div>
+                                
                                 <div class="fetchData">
                                     <button class="btn btn-primary" type="button" t-on-click="() => this.fetchData()">
                                         <i class="oi oi-search"></i>

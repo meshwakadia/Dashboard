@@ -56,11 +56,45 @@ class WebsiteForm(http.Controller):
                 }
         return vals
     
-    @http.route('/get_countries',auth="public", type="json", methods=['GET', 'POST'])
-    def get_countries(self,**kw):
+    # @http.route('/get_countries',auth="public", type="json", methods=['GET', 'POST'])
+    # def get_countries(self,**kw):
+    #     countries = request.env['res.country'].search([])
+    #     vals= [{'id': country.id, 'name': country.name} for country in countries]              
+    #     return vals
+    
+  
+
+    @http.route('/get_countries', type='json', auth='public')
+    def get_countries(self):
         countries = request.env['res.country'].search([])
-        vals= [{'id': country.id, 'name': country.name} for country in countries]              
-        return vals
+        return {'countries': [{'id': country.id, 'name': country.name} for country in countries]}
+    
+    @http.route('/get_products', type='json', auth='public')
+    def get_products(self):
+        products = request.env['product.template'].search([])
+        return {'products': [{'id': product.id, 'name': product.name} for product in products]}
+
+    @http.route('/get_customers', type='json', auth='public')
+    def get_customers(self):
+        customers = request.env['res.partner'].search([])
+        return {'customers': [{'id': customer.id, 'name': customer.name} for customer in customers]}
+    
+    @http.route('/get_catagories', type='json', auth='public')
+    def get_catagories(self):
+        catagories = request.env['product.category'].search([])
+        return {'catagories': [{'id': catagory.id, 'name': catagory.name} for catagory in catagories]}
+    
+    @http.route('/get_salesteams', type='json', auth='public')
+    def get_salesteams(self):
+        salesteams = request.env['crm.team'].search([])
+        return {'salesteams': [{'id': salesteam.id, 'name': salesteam.name} for salesteam in salesteams]}
+    
+    @http.route('/get_salespersons', type='json', auth='public')
+    def get_salespersons(self):
+        salespersons = request.env['res.users'].search([])
+        return {'salespersons': [{'id': salesperson.id, 'name': salesperson.name} for salesperson in salespersons]}
+    
+    
     
     @http.route('/top-products', auth="public", type="json", methods=['GET', 'POST'])
     def top_products(self, **kw):

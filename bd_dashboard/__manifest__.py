@@ -1,5 +1,5 @@
 {
-    'name': 'Bd Dashboard',
+    'name': 'Custom Dashboard',
     'version': '17.0',
     'sequence': '1',
     'depends': ['base','sale_management'],
@@ -15,6 +15,6 @@
         ],
     },
     'installable': True,
-    'application': False,
+    'application': True,
     'auto_install': False,
 }

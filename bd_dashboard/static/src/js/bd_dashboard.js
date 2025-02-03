@@ -54,7 +54,11 @@ class BdDashboardTag extends Component {
         this.top_products();
         this.getOrder();
         this._fetchCountries();
-
+        this._fetchProducts();
+        this._fetchCustomers();
+        this._fetchCatagories();
+        this._fetchSalesteams();
+        this._fetchSalesperson();
     }
 
     async getTopProducts() {
@@ -208,14 +212,111 @@ class BdDashboardTag extends Component {
         await this.getOrder();
     }
     
-    _fetchCountries () {
+    // _fetchCountries () {
+    //     var self = this;
+    //     var prom = jsonrpc('/get_countries')
+    //     self.countries = countries;
+    //     console.log("self.countries_________________________",self.countries)
+    //     self.renderElement();
+    //     console.log("prom_________________________",prom)
+    //     return prom
+    // }
+   
+
+    _fetchCountries() {
         var self = this;
-        var prom = jsonrpc('/get_countries')
-        // self.countries = countries;
-        // console.log("self.countries_________________________",self.countries)
-        // self.renderElement();
-        console.log("prom_________________________",prom)
-        return prom
+        let prom = jsonrpc('/get_countries'); 
+        
+        prom.then(function(response) {
+            self.countries = response.countries || [];
+            console.log("self.countries_________________________", self.countries);
+            self.renderElement();
+        }).catch(function(error) {
+            console.error("Error fetching countries:", error);
+        });
+    
+        console.log("prom_________________________", prom);
+        return prom;
+    }
+
+    _fetchProducts() {
+        var self = this;
+        let prom = jsonrpc('/get_products'); 
+        
+        prom.then(function(response) {
+            self.products = response.products || [];
+            console.log("self.products_________________________", self.products);
+            self.renderElement();
+        }).catch(function(error) {
+            console.error("Error fetching products:", error);
+        });
+    
+        console.log("prom_________________________", prom);
+        return prom;
+    }
+
+    _fetchCustomers() {
+        var self = this;
+        let prom = jsonrpc('/get_customers'); 
+        
+        prom.then(function(response) {
+            self.customers = response.customers || [];
+            console.log("self.customers_________________________", self.customers);
+            self.renderElement();
+        }).catch(function(error) {
+            console.error("Error fetching customers:", error);
+        });
+    
+        console.log("prom_________________________", prom);
+        return prom;
+    }
+    
+    _fetchCatagories() {
+        var self = this;
+        let prom = jsonrpc('/get_catagories'); 
+        
+        prom.then(function(response) {
+            self.catagories = response.catagories || [];
+            console.log("self.catagories_________________________", self.catagories);
+            self.renderElement();
+        }).catch(function(error) {
+            console.error("Error fetching catagories:", error);
+        });
+    
+        console.log("prom_________________________", prom);
+        return prom;
+    }
+
+    _fetchSalesteams() {
+        var self = this;
+        let prom = jsonrpc('/get_salesteams'); 
+        
+        prom.then(function(response) {
+            self.salesteams = response.salesteams || [];
+            console.log("self.salesteams_________________________", self.salesteams);
+            self.renderElement();
+        }).catch(function(error) {
+            console.error("Error fetching salesteams:", error);
+        });
+    
+        console.log("prom_________________________", prom);
+        return prom;
+    }
+
+    _fetchSalesperson() {
+        var self = this;
+        let prom = jsonrpc('/get_salespersons'); 
+        
+        prom.then(function(response) {
+            self.salespersons = response.salespersons || [];
+            console.log("self.salespersons_________________________", self.salespersons);
+            self.renderElement();
+        }).catch(function(error) {
+            console.error("Error fetching salespersons:", error);
+        });
+    
+        console.log("prom_________________________", prom);
+        return prom;
     }
 
     top_products(ev) {
